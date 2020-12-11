@@ -1,0 +1,90 @@
+#graph {
+    height: 300px;
+    width: 500px;
+
+}
+
+#openInputs {
+    background-color: black;
+    color: white;
+    font-size: 60px;
+    padding-top: 0px;
+    position: fixed;
+    top: 0px;
+    margin-top: 10px;
+    margin-right: 10px;
+    right: 0px;
+    width: 80px;
+    height: 80px;
+    z-index: 1;
+}
+.optionHeaders {
+    font-size: 50px;
+    padding: 0px;
+    margin: 0px;
+}
+.optionsButtons {
+    font-size: 70px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    border: none;
+    width: 100px;
+    height: 0px;
+    margin: 0px;
+    float: right;
+    position: relative;
+    padding: 0px;
+
+}
+#closeOptions {
+    padding: 0px;
+    background-color: rgb(200, 200, 200);
+    color: black;
+    margin-top: 0px;
+
+}
+.sliderDisplays {
+    font-size: 35px;
+}
+
+.sliders {
+    width: 190px;
+    height: 5px;
+    float: right;
+    margin-top: 25px;
+}
+#width, #height {
+    width: 50px;
+    height: 20px;
+    margin-top: 10px;
+    padding-top: 0px;
+    float: top;
+}
+#inputs {
+    width: 500px;
+    height: relative;
+    padding: 25px;
+    padding-top: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    position: fixed;
+    float: right;
+    top: 0px;
+    right: 0px;
+    background-color: rgb(200, 200, 200);
+    border-radius: 4px;
+    transition: 0.5s;
+    font-size: 45px;
+    font-family:Arial, Helvetica, sans-serif;
+    
+} 
+
+#canvasHolder {
+    width: 900px;
+    display: block;
+    height: 800px;
+}
+#csvButton {
+    padding: 10px;
+}
