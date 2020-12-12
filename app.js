@@ -18,7 +18,7 @@ const defaultValues = {
 }
 //let data = "30, 0, 50, 0, 45, 255, 60, 255, 0";
 //let data = "";
-let data = "30, 255, 0";
+let data = "30, 0, 255";
 let lastData = "";
 let width = defaultValues.width;
 let height = defaultValues.height;
