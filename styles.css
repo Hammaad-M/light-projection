@@ -3,7 +3,9 @@
     width: 500px;
 
 }
-
+#canvas {
+    background-color: black;
+}
 #openInputs {
     background-color: black;
     color: white;
