@@ -251,18 +251,16 @@ function updateProjection() {
         }
         createProjection(angles, modifiedIntensities);
         if (overlay) {
-            let xLength = width/10;
-            let yLength = height/10
-            line(0, 0, xLength, 0);
-            line(0, 0, 0, yLength);
-            line(0, height - yLength, 0, height);
-            line(0, height, xLength, height);
-            line(width-xLength, 0, width, 0);
-            line(width, 0, width, yLength);
-            line(width-xLength, height, width, height);
-            line(width, height-yLength, width, height);
-            line(halfWidth - (xLength/3), halfHeight, halfWidth + (xLength/3), halfHeight);
-            line(halfWidth, halfHeight - (yLength/3), halfWidth, halfHeight + (yLength/3));
+            line(0, 0, xLength, 0, 15);
+            line(0, 0, 0, yLength, 15);
+            line(0, height - yLength, 0, height, 15);
+            line(0, height, xLength, height, 15);
+            line(width-xLength, 0, width, 0, 15);
+            line(width, 0, width, yLength, 15);
+            line(width-xLength, height, width, height, 15);
+            line(width, height-yLength, width, height, 15);
+            line(halfWidth - 25, halfHeight, halfWidth + 25, halfHeight, 5);
+            line(halfWidth, halfHeight-25, halfWidth, halfHeight + 25, 5);
         }
         imageURL = document.getElementById("canvas").toDataURL();
         document.getElementById("projectionImage").src = imageURL;
