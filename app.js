@@ -251,6 +251,8 @@ function updateProjection() {
         }
         createProjection(angles, modifiedIntensities);
         if (overlay) {
+            let xLength = width/10;
+            let yLength = height/10;
             line(0, 0, xLength, 0, 15);
             line(0, 0, 0, yLength, 15);
             line(0, height - yLength, 0, height, 15);
