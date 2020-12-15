@@ -167,7 +167,7 @@ async function createProjection(angles, intensities) {
     maxAngle = parseInt((Math.atan(halfWidth/z)) * (180/Math.PI));
     console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     console.log("maxAngle " + maxAngle);
-    rMax = Math.sqrt((width*width) + (height*height))/2;
+    rMax = Math.sqrt((9*width*width) + (9*height*height))/2;
     radi = [];
     angles.forEach((a, i) => {
         toRadi = parseInt((Math.tan(a * (Math.PI / 180)))*z);
