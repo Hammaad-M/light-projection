@@ -194,7 +194,7 @@ async function createProjection(angles, intensities) {
 }
 function updateProjection() {
     //rMax = Math.sqrt((width*width) + (height*height))/2;
-    rMax = Math.sqrt((9*width*width) + (9*height*height))/2;
+    rMax = Math.sqrt((9*(width*width)) + (9*(height*height)))/2;
     scaleFactor = Math.min(maxCanvasSideLength/width, maxCanvasSideLength/height, 1);
     width *= scaleFactor;
     height *= scaleFactor;
@@ -209,8 +209,7 @@ function updateProjection() {
     console.log(width, height);
     xPoint = x + halfWidth;
     yPoint = y + halfHeight;
-    if (xPoint != lastxPoint || yPoint != lastyPoint || z != lastZ || refresh == true || 
-        lastData != data || width != lastWidth || height != lastHeight) {
+    if (xPoint != lastxPoint || yPoint != lastyPoint || z != lastZ || refresh == true || lastData != data || width != lastWidth || height != lastHeight) {
         const values = data.split(',');
         angles = [];
         for (let i = 0; i <= values.length-2; i+=2) {
