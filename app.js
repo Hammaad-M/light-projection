@@ -289,7 +289,7 @@ document.getElementById('csvButton').addEventListener('change', function() {
 
 setInterval(() => {
     console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-    maxCanvasSideLength = Math.min(window.innerWidth, window.innerHeight);
+    maxCanvasSideLength = Math.min(window.innerWidth-500, window.innerHeight-100);
     console.log(window.innerWidth-500, window.innerHeight-50);
     updateValues();
     updateProjection();
