@@ -75,14 +75,14 @@ function updateValues() {
     y = parseInt(yInput.value);
     if (isNaN(width)) {
         width = defaultValues.width;
-    } else if (width > 10000) {
-        width = 10000;
+    } else if (width > 5000) {
+        width = 5000;
         widthInput.value = width;
     }
     if (isNaN(height)) {
         height = defaultValues.height;
-    } else if (height > 10000) {
-        height = 10000;
+    } else if (height > 5000) {
+        height = 5000;
         heightInput.value = height;
     }
     xDisplay.innerHTML = x;
