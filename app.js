@@ -90,7 +90,7 @@ function updateValues() {
     yInput.max = height;
     yInput.min = (-1*height);
     xInput.value = x;
-    yInput.value = x;
+    yInput.value = y;
     
 }
 
