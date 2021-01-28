@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+body {
+    font-family: 'Quicksand';
+    overflow: hidden;
+}
+form {
+    padding-top: 0em;
+    max-height: 95vh;
+    overflow: hidden;
+}
+#inputs {
+    border: 2px solid black;
+    width: 500px;
+    max-height: 95vh;
+    overflow: hidden;
+    padding: 25px;
+    padding-top: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    position: fixed;
+    float: right;
+    top: 0px;
+    right: 0px;
+    background-color: rgb(200, 200, 200);
+    border-radius: 4px;
+    transition: 0.5s;
+    font-size: 45px;
+    font-family:Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+#graph {
+    height: 10vh;
+    width: 500px;
+}
+#canvas {
+    margin: 20px;
+    margin-top: 0px;
+}
+#openInputs {
+    background-color: black;
+    color: white;
+    font-size: 40px;
+    padding-top: 0px;
+    position: fixed;
+    top: 0px;
+    margin-top: 10px;
+    margin-right: 10px;
+    right: 0px;
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+}
+.optionHeaders {
+    font-size: 25px;
+    padding: 0px;
+    margin: auto;
+    font-family: 'Quicksand';
+    z-index: 2;
+    position: fixed;
+    background-color: rgb(200, 200, 200);
+    border-radius: 5px;
+    padding: 7px;
+    margin-top: -1.65em;
+    text-align: center;
+    margin-right: 8em;
+}
+.labels {
+    font-size: 20px;
+    font-family: 'Quicksand';
+}
+.text-input {
+    width: 3.5em;
+    height: 15px;
+    float: none;
+    position: relative;
+    bottom: 0.1em;
+    padding-top: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+input[type="text"] {
+    border-radius: 5px;
+}
+#z {
+    float: none;
+    position: relative;
+    left: 20px;
+    top: -5px;
+}
+.optionsButtons {
+    font-size: 50px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    border: none;
+    width: 100px;
+    height: 0px;
+    margin: 0px;
+    float: right;
+    position: relative;
+    padding: 0px;
+    margin-right: -30px;
+}
+#closeOptions {
+    padding: 0px;
+    background-color: rgb(200, 200, 200);
+    color: black;
+    margin-top: 0px;
+}
+.sliderDisplays {
+    font-size: 20px;
+}
+
+.sliders {
+    width: 190px;
+    height: 5px;
+    float: right;
+    margin-top: 25px;
+    
+}
+#width, #height {
+    width: 50px;
+    height: 20px;
+    margin-top: 10px;
+    padding-top: 0px;
+    float: top;
+}
+
+#measurementsA {
+    border: 2px solid black;
+    margin-bottom: -40px;
+    margin-top: -25px;
+    text-align: center;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
+#measurementsB {
+    border: 2px solid black;
+    text-align: center;
+    border-radius: 5px;
+    padding-bottom: 5px;
+    margin-bottom: -20px;
+}
+#file-section {
+    border-radius: 5px;
+    border: 2px solid black;
+    margin-top: 35px;
+    padding-left: 15px;
+    height: 3em;
+}
+#sample {
+    width: 7em;
+    height: 5em;
+    position: relative;
+    top: 2.5em;
+}
+#example {
+    float: right;
+    position: relative;
+    right: 10px;
+    bottom: 20px;
+}
+#canvasHolder {
+    width: 900px;
+    display: block;
+    height: 800px;
+}
+#csvButton {
+    padding: 10px;
+    width: 200px;
+    margin-right: 10px;
+    position: relative;
+    bottom: 1em;
+}
+#disclaimer {
+    width: 50%;
+    position: relative;
+    bottom: 50px;
+}
+#slider-container {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+}
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    float: right;
+    width: 210px;
+    height: 34px;
+    margin-left: -140px;
+    margin-top: 10px;
+    
+}
+  
+  /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+  
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    margin-left: 150px;
+    margin-top: 0px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+    
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+#downloadSection {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: white;
+    margin-right: 10px;
+    width: 200px;
+    height: relative;
+    padding: 10px;
+    font-size: 15px;
+    float: right;
+    text-align: center;
+}
+
+#projectionImage {
+    height: 50px;
+    width: relative;
+    
+}
