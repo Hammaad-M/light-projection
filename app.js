@@ -384,9 +384,8 @@ setInterval(() => {
     lastWidth = width;
     lastScaleFactor = scaleFactor;
     if (overlayRefresh) {
-        console.log("x: " + mouseX + " y: " + mouseY);
         let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
-        ctx.font = "13px Verdana";
+        ctx.font = "14px Verdana";
         if (ctx.getImageData(mouseX, mouseY, 1, 1).data[0] >= 125) {
             overlayctx.fillStyle = "black";
         } else {
