@@ -302,7 +302,7 @@ function updateProjection() {
             line(halfWidth - 25, halfHeight, halfWidth + 25, halfHeight, 1);
             line(halfWidth, halfHeight-25, halfWidth, halfHeight + 25, 1);
             //quadrant analysis
-            ctx.font = "10px Verdana";
+            ctx.font = "13px Verdana";
             ctx.fillStyle = "blue";
             line(0, halfHeight, width, halfHeight, 1);
             line(halfWidth, 0, halfWidth, height, 1);
@@ -386,7 +386,7 @@ setInterval(() => {
     if (overlayRefresh) {
         console.log("x: " + mouseX + " y: " + mouseY);
         let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
-        ctx.font = "10px Verdana";
+        ctx.font = "12px Verdana";
         if (ctx.getImageData(mouseX, mouseY, 1, 1).data[0] >= 125) {
             overlayctx.fillStyle = "black";
         } else {
