@@ -37,6 +37,11 @@ form {
     margin: 20px;
     margin-top: 0px;
 }
+#overlay-canvas {
+    margin: 20px;
+    margin-top: 0px;
+    position: absolute;
+}
 .overlay-tags {
     font-size: 10px;
     color: black;

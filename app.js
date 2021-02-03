@@ -1,4 +1,6 @@
 const ctx = document.getElementById("canvas").getContext("2d");
+const overlayctx = document.getElementById("overlay-canvas").getContext("2d");
+overlayctx.fillStyle = "rgba(30, 250, 10, 1);";
 const widthInput = document.getElementById("width");
 const heightInput = document.getElementById("height");
 const xInput = document.getElementById("x");
@@ -16,7 +18,7 @@ const defaultValues = {
     x: 0,
     y: 0
 }
-const poiFactor = 0.7;
+let poiFactor = 0.7;
 let data = setDefualtData();
 let lastData = "";
 let width = defaultValues.width;
@@ -43,8 +45,13 @@ xInput.value = 0;
 yInput.value = 0;
 let overlayChange = false;
 let overlay = false;
+let overlayRefresh = false;
 let scaleFactor = 1;
 let lastScaleFactor = scaleFactor;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let mouseX = 0;
+let mouseY = 0;
 
 function resizeCanvas(newWidth, newHeight) {
     $("#canvasHolder").height(newHeight); 
@@ -148,9 +155,18 @@ function line(x1, y1, x2, y2, lineWidth) {
 }
 function arc(x, y) {
     ctx.beginPath();
+    setInverseColor(x, y);
     ctx.arc(x, y, 3, 0, 2*Math.PI);
     ctx.stroke();
     return ctx.getImageData(x, y, 1, 1).data;
+}
+function setInverseColor(x, y) {
+    const pxColor = ctx.getImageData(x, y, 1, 1).data[0];
+    if (pxColor >= 100) {
+        ctx.fillStyle = "black";
+    } else {
+        ctx.fillStyle = "white";
+    }
 }
 
 async function createProjection(angles, intensities) {
@@ -286,7 +302,7 @@ function updateProjection() {
             line(halfWidth - 25, halfHeight, halfWidth + 25, halfHeight, 1);
             line(halfWidth, halfHeight-25, halfWidth, halfHeight + 25, 1);
             //quadrant analysis
-            ctx.font = "15px Verdana";
+            ctx.font = "10px Verdana";
             ctx.fillStyle = "blue";
             line(0, halfHeight, width, halfHeight, 1);
             line(halfWidth, 0, halfWidth, height, 1);
@@ -294,29 +310,44 @@ function updateProjection() {
 
             for (let i = 0; i < poiX.length; i++) {
                 poi = arc(poiX[i], poiY[0]);
+                setInverseColor(poiX[i], poiY[0]);
                 ctx.fillText(poi[0], poiX[i]+5, poiY[0]+5);
                 poi = arc(poiX[i], poiY[1]);
+                setInverseColor(poiX[i], poiY[1]);
                 ctx.fillText(poi[0], poiX[i]+5, poiY[1]+5);
             }
 
-
+            setInverseColor(10, halfHeight-5);
             ctx.fillText(center1[0], 10, halfHeight-5);
+
+            setInverseColor(halfWidth+5, halfHeight-5);
             ctx.fillText(center2[0], halfWidth+5, halfHeight-5);
+
+            setInverseColor(width-35, halfHeight-5);
             ctx.fillText(center3[0], width-35, halfHeight-5);
+
+            setInverseColor(10, 20);
             ctx.fillText(top1[0], 10, 20);
+            setInverseColor(halfWidth+5, 20);
+
             ctx.fillText(top2[0], halfWidth+5, 20);
+            setInverseColor(width-35, 20);
+
             ctx.fillText(top3[0], width-35, 20);
+            setInverseColor(5, height-5);
+
             ctx.fillText(bottom1[0], 5, height-5);
+            setInverseColor(halfWidth+5, height-5);
+
             ctx.fillText(bottom2[0], halfWidth+5, height-5);
+            setInverseColor(width-35, height-5);
+
             ctx.fillText(bottom3[0], width-35, height-5);
             
         }
 
 
     }
-
-
-
 }
 
 document.getElementById('csvButton').addEventListener('change', function() { 
@@ -329,9 +360,19 @@ document.getElementById('csvButton').addEventListener('change', function() {
     fr.readAsText(this.files[0]); 
 });
 
+$('#overlay-canvas').mousemove((e) => {
+    let rect = document.getElementById("overlay-canvas").getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    if (mouseX != lastMouseX || mouseY != lastMouseY) {
+        overlayRefresh = true;
+    }
+});
+
+
 setInterval(() => {
     maxCanvasSideLength = Math.min(window.innerWidth-500, window.innerHeight-100);
-    //console.log(window.innerWidth-500, window.innerHeight-50);
+    $('#overlay-canvas').attr({width: canvasHolder.innerWidth(), height: canvasHolder.innerHeight()});
     updateValues();
     updateProjection();
     refresh = false;
@@ -342,4 +383,17 @@ setInterval(() => {
     lastHeight = height;
     lastWidth = width;
     lastScaleFactor = scaleFactor;
+    if (overlayRefresh) {
+        console.log("x: " + mouseX + " y: " + mouseY);
+        let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
+        ctx.font = "10px Verdana";
+        if (ctx.getImageData(mouseX, mouseY, 1, 1).data[0] >= 125) {
+            overlayctx.fillStyle = "black";
+        } else {
+            overlayctx.fillStyle = "white";
+        }
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        overlayctx.fillText(text, mouseX, mouseY);
+    }
 }, 50);
