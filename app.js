@@ -218,8 +218,6 @@ function updateProjection() {
         resizeCanvas(width, height); 
         refresh = true;
     } 
-
-    //console.log(width, height);
     xPoint = x + halfWidth;
     yPoint = y + halfHeight;
     if (xPoint != lastxPoint || yPoint != lastyPoint || z != lastZ || refresh == true || lastData != data || width != lastWidth || height != lastHeight) {
@@ -274,7 +272,6 @@ function updateProjection() {
 document.getElementById('csvButton').addEventListener('change', function() { 
     const fr=new FileReader(); 
     fr.onload=function(){ 
-        //console.log(fr.result);
         refresh = true;
         data = fr.result;
     } 
@@ -341,7 +338,6 @@ function manageOverlay() {
         for (let i = 0; i < poiX.length; i++) {
             poi = arc(poiX[i], poiY[0]);
             setInverseColor(poiX[i], poiY[0]);
-            console.log("poi " + poi);
             overlayctx.fillText(poi[0], poiX[i]+5, poiY[0]+5);
             poi = arc(poiX[i], poiY[1]);
             setInverseColor(poiX[i], poiY[1]);
@@ -374,7 +370,6 @@ function manageOverlay() {
         let j = 0;
         for (let i = 0; i < measurementCoordinates.length; i+=2) {
             setInverseColor(measurementCoordinates[i], measurementCoordinates[i+1]);
-            console.log(overlayctx.fillStyle, measurementCoordinates[i], measurementCoordinates[i+1]);
             overlayctx.fillText(measurements[j][0], measurementCoordinates[i], measurementCoordinates[i+1]);
             j++;
         }
