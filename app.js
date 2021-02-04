@@ -155,7 +155,7 @@ function arc(x, y) {
     setInverseColor(x, y);
     overlayctx.arc(x, y, 3, 0, 2*Math.PI);
     overlayctx.stroke();
-    return overlayctx.getImageData(x, y, 1, 1).data;
+    return ctx.getImageData(x, y, 1, 1).data;
 }
 function setInverseColor(x, y) {
     const pxColor = ctx.getImageData(x, y, 1, 1).data[0];
@@ -341,6 +341,7 @@ function manageOverlay() {
         for (let i = 0; i < poiX.length; i++) {
             poi = arc(poiX[i], poiY[0]);
             setInverseColor(poiX[i], poiY[0]);
+            console.log("poi " + poi);
             overlayctx.fillText(poi[0], poiX[i]+5, poiY[0]+5);
             poi = arc(poiX[i], poiY[1]);
             setInverseColor(poiX[i], poiY[1]);
