@@ -1,13 +1,10 @@
 const ctx = document.getElementById("canvas").getContext("2d");
 const overlayctx = document.getElementById("overlay-canvas").getContext("2d");
-overlayctx.fillStyle = "rgba(30, 250, 10, 1);";
 const widthInput = document.getElementById("width");
 const heightInput = document.getElementById("height");
 const xInput = document.getElementById("x");
 const yInput = document.getElementById("y");
 const zInput = document.getElementById("z");
-//const xDisplay = document.getElementById("xDisplay");
-//const yDisplay = document.getElementById("yDisplay");
 const zDisplay = document.getElementById("zDisplay");
 const canvasHolder = $('#canvasHolder');
 let maxCanvasSideLength = Math.min(window.innerWidth - 500, window.innerHeight - 500);
@@ -45,7 +42,7 @@ xInput.value = 0;
 yInput.value = 0;
 let overlayChange = false;
 let overlay = false;
-let overlayRefresh = false;
+let mouseMoved = false;
 let scaleFactor = 1;
 let lastScaleFactor = scaleFactor;
 let lastMouseX = 0;
@@ -147,25 +144,25 @@ function chartResults(angles, intensities) {
 }
 
 function line(x1, y1, x2, y2, lineWidth) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineWidth = lineWidth;
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
+    overlayctx.beginPath();
+    overlayctx.moveTo(x1, y1);
+    overlayctx.lineWidth = lineWidth;
+    overlayctx.lineTo(x2, y2);
+    overlayctx.stroke();
 }
 function arc(x, y) {
-    ctx.beginPath();
+    overlayctx.beginPath();
     setInverseColor(x, y);
-    ctx.arc(x, y, 3, 0, 2*Math.PI);
-    ctx.stroke();
-    return ctx.getImageData(x, y, 1, 1).data;
+    overlayctx.arc(x, y, 3, 0, 2*Math.PI);
+    overlayctx.stroke();
+    return overlayctx.getImageData(x, y, 1, 1).data;
 }
 function setInverseColor(x, y) {
     const pxColor = ctx.getImageData(x, y, 1, 1).data[0];
     if (pxColor >= 100) {
-        ctx.fillStyle = "black";
+        overlayctx.fillStyle = "black";
     } else {
-        ctx.fillStyle = "white";
+        overlayctx.fillStyle = "white";
     }
 }
 
@@ -268,83 +265,7 @@ function updateProjection() {
             chartResults(angles, decimalIntensities);
         }
         createProjection(angles, modifiedIntensities);
-        if (overlay) {
-            let xLength = 100;
-            let yLength = 100;
-            let poiFormulaY = (halfHeight*poiFactor);
-            let poiFormulaX = (halfWidth*poiFactor);
-            let poiY = [halfHeight + poiFormulaY, halfHeight - poiFormulaY];
-            let poiX = [halfWidth + poiFormulaX, halfWidth - poiFormulaX];
-            let lineWidth = (width+height)/200;
-            let top1 = ctx.getImageData(0, 0, 1, 1).data;
-            let top2 = ctx.getImageData(halfWidth, 0, 1, 1).data;
-            let top3 = ctx.getImageData(width-1, 0, 1, 1).data;
-            let center1 = ctx.getImageData(0, halfHeight, 1, 1).data;
-            let center2 = ctx.getImageData(halfWidth, halfHeight, 1, 1).data;
-            let center3 = ctx.getImageData(width-1, halfHeight-1, 1, 1).data;
-            let bottom1 = ctx.getImageData(0, height-1, 1, 1).data;
-            let bottom2 = ctx.getImageData(halfWidth, height-1, 1, 1).data;
-            let bottom3 = ctx.getImageData(width-1, height-1, 1, 1).data;
-            //borders
-            ctx.strokeStyle = "blue";
-            line(0, 0, xLength, 0, lineWidth);
-            line(0, 0, 0, yLength, lineWidth);
-            
-            line(0, height - yLength, 0, height, lineWidth);
-            line(0, height, xLength, height, lineWidth);
-            
-            line(width-xLength, 0, width, 0, lineWidth);
-            line(width, 0, width, yLength, lineWidth);
-            
-            line(width-xLength,height, width, height, lineWidth);
-            line(width, height-yLength, width, height, lineWidth);
-            //crossbar (50 pixel length)
-            line(halfWidth - 25, halfHeight, halfWidth + 25, halfHeight, 1);
-            line(halfWidth, halfHeight-25, halfWidth, halfHeight + 25, 1);
-            //quadrant analysis
-            ctx.font = "13px Verdana";
-            ctx.fillStyle = "blue";
-            line(0, halfHeight, width, halfHeight, 1);
-            line(halfWidth, 0, halfWidth, height, 1);
-            console.log(poiX, poiY);    
 
-            for (let i = 0; i < poiX.length; i++) {
-                poi = arc(poiX[i], poiY[0]);
-                setInverseColor(poiX[i], poiY[0]);
-                ctx.fillText(poi[0], poiX[i]+5, poiY[0]+5);
-                poi = arc(poiX[i], poiY[1]);
-                setInverseColor(poiX[i], poiY[1]);
-                ctx.fillText(poi[0], poiX[i]+5, poiY[1]+5);
-            }
-
-            setInverseColor(10, halfHeight-5);
-            ctx.fillText(center1[0], 10, halfHeight-5);
-
-            setInverseColor(halfWidth+5, halfHeight-5);
-            ctx.fillText(center2[0], halfWidth+5, halfHeight-5);
-
-            setInverseColor(width-35, halfHeight-5);
-            ctx.fillText(center3[0], width-35, halfHeight-5);
-
-            setInverseColor(10, 20);
-            ctx.fillText(top1[0], 10, 20);
-            setInverseColor(halfWidth+5, 20);
-
-            ctx.fillText(top2[0], halfWidth+5, 20);
-            setInverseColor(width-35, 20);
-
-            ctx.fillText(top3[0], width-35, 20);
-            setInverseColor(5, height-5);
-
-            ctx.fillText(bottom1[0], 5, height-5);
-            setInverseColor(halfWidth+5, height-5);
-
-            ctx.fillText(bottom2[0], halfWidth+5, height-5);
-            setInverseColor(width-35, height-5);
-
-            ctx.fillText(bottom3[0], width-35, height-5);
-            
-        }
 
 
     }
@@ -365,7 +286,7 @@ $('#overlay-canvas').mousemove((e) => {
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
     if (mouseX != lastMouseX || mouseY != lastMouseY) {
-        overlayRefresh = true;
+        mouseMoved = true;
     }
 });
 
@@ -375,6 +296,7 @@ setInterval(() => {
     $('#overlay-canvas').attr({width: canvasHolder.innerWidth(), height: canvasHolder.innerHeight()});
     updateValues();
     updateProjection();
+    manageOverlay();
     refresh = false;
     lastData = data;
     lastxPoint = xPoint;
@@ -383,16 +305,85 @@ setInterval(() => {
     lastHeight = height;
     lastWidth = width;
     lastScaleFactor = scaleFactor;
-    if (overlayRefresh) {
-        let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
-        ctx.font = "14px Verdana";
-        if (ctx.getImageData(mouseX, mouseY, 1, 1).data[0] >= 125) {
-            overlayctx.fillStyle = "black";
-        } else {
-            overlayctx.fillStyle = "white";
+}, 50);
+
+function manageOverlay() {
+    if (overlay) {
+        let xLength = 100;
+        let yLength = 100;
+        let poiFormulaY = (halfHeight*poiFactor);
+        let poiFormulaX = (halfWidth*poiFactor);
+        let poiY = [halfHeight + poiFormulaY, halfHeight - poiFormulaY];
+        let poiX = [halfWidth + poiFormulaX, halfWidth - poiFormulaX];
+        let lineWidth = (width+height)/200;
+        //borders
+        overlayctx.strokeStyle = "blue";
+        line(0, 0, xLength, 0, lineWidth);
+        line(0, 0, 0, yLength, lineWidth);
+        
+        line(0, height - yLength, 0, height, lineWidth);
+        line(0, height, xLength, height, lineWidth);
+        
+        line(width-xLength, 0, width, 0, lineWidth);
+        line(width, 0, width, yLength, lineWidth);
+        
+        line(width-xLength,height, width, height, lineWidth);
+        line(width, height-yLength, width, height, lineWidth);
+        //crossbar (50 pixel length)
+        line(halfWidth - 25, halfHeight, halfWidth + 25, halfHeight, 1);
+        line(halfWidth, halfHeight-25, halfWidth, halfHeight + 25, 1);
+        //quadrant analysis
+        overlayctx.font = "13px Verdana";
+        
+        line(0, halfHeight, width, halfHeight, 1);
+        line(halfWidth, 0, halfWidth, height, 1);    
+
+        for (let i = 0; i < poiX.length; i++) {
+            poi = arc(poiX[i], poiY[0]);
+            setInverseColor(poiX[i], poiY[0]);
+            overlayctx.fillText(poi[0], poiX[i]+5, poiY[0]+5);
+            poi = arc(poiX[i], poiY[1]);
+            setInverseColor(poiX[i], poiY[1]);
+            overlayctx.fillText(poi[0], poiX[i]+5, poiY[1]+5);
         }
+        let measurementCoordinates = [];
+        measurementCoordinates.push(
+            10, halfHeight-5,
+            halfWidth+5, halfHeight-5,
+            width-35, halfHeight-5,
+            10, 20,
+            halfWidth+5, 20,
+            width-35, 20,
+            5, height-5,
+            halfWidth+5, height-5,
+            width-35, height-5
+        );
+        let measurements = [];
+        measurements.push(
+            ctx.getImageData(0, 0, 1, 1).data,
+            ctx.getImageData(halfWidth, 0, 1, 1).data,
+            ctx.getImageData(width-1, 0, 1, 1).data,
+            ctx.getImageData(0, halfHeight, 1, 1).data,
+            ctx.getImageData(halfWidth, halfHeight, 1, 1).data,
+            ctx.getImageData(width-1, halfHeight-1, 1, 1).data,
+            ctx.getImageData(0, height-1, 1, 1).data,
+            ctx.getImageData(halfWidth, height-1, 1, 1).data,
+            ctx.getImageData(width-1, height-1, 1, 1).data
+        );
+        let j = 0;
+        for (let i = 0; i < measurementCoordinates.length; i+=2) {
+            setInverseColor(measurementCoordinates[i], measurementCoordinates[i+1]);
+            console.log(overlayctx.fillStyle, measurementCoordinates[i], measurementCoordinates[i+1]);
+            overlayctx.fillText(measurements[j][0], measurementCoordinates[i], measurementCoordinates[i+1]);
+            j++;
+        }
+    }
+    if (mouseMoved) {
+        let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
+        overlayctx.font = "12px Verdana";
+        setInverseColor(mouseX, mouseY);
         lastMouseX = mouseX;
         lastMouseY = mouseY;
         overlayctx.fillText(text, mouseX, mouseY);
     }
-}, 50);
+}
