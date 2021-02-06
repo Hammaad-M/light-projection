@@ -20,6 +20,8 @@ let data = setDefualtData();
 let lastData = "";
 let width = defaultValues.width;
 let height = defaultValues.height;
+let ogWidth = width;
+let ogHeight = height;
 let z = defaultValues.z;
 let x = defaultValues.x;
 let y = defaultValues.y;
@@ -43,6 +45,7 @@ yInput.value = 0;
 let overlayChange = false;
 let overlay = false;
 let mouseMoved = false;
+let drawMouse = true;
 let scaleFactor = 1;
 let lastScaleFactor = scaleFactor;
 let lastMouseX = 0;
@@ -71,8 +74,13 @@ function toggleOverlay() {
 }
 
 function updateValues() {
-    width = parseInt(widthInput.value);
-    height = parseInt(heightInput.value);
+    width = widthInput.value;
+    height = heightInput.value;
+    ogWidth = (width == "") ? 1920 : parseInt(width);
+    ogHeight = (height == "") ? 1080 : parseInt(height);
+    width = parseInt(width);
+    height = parseInt(height);
+    console.log(ogWidth, ogHeight);
     z = parseFloat(zInput.value);
     if (!isNaN(parseFloat(xInput.value))) {
         x = parseFloat(xInput.value);
@@ -172,7 +180,6 @@ async function createProjection(angles, intensities) {
     radi = [];
     if (angles[angles.length-1] == 90) {
         angles[angles.length-1] = 89;
-        //intensities[intensities-1] = ????
     }
     radi.forEach((a, i) => {
         radi[i] *= scaleFactor;
@@ -213,7 +220,6 @@ function updateProjection() {
     height *= scaleFactor;
     halfWidth = width/2;
     halfHeight = height/2;
-
     if (width != lastWidth || height != lastHeight) {
         resizeCanvas(width, height); 
         refresh = true;
@@ -283,7 +289,12 @@ $('#overlay-canvas').mousemove((e) => {
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
     if (mouseX != lastMouseX || mouseY != lastMouseY) {
-        mouseMoved = true;
+        if (mouseX > width-2 || mouseY > height-3 || mouseX < 2 || mouseY < 4) {
+            drawMouse = false;
+        } else {
+            mouseMoved = true;
+            drawMouse = true;
+        }
     }
 });
 
@@ -374,8 +385,10 @@ function manageOverlay() {
             j++;
         }
     }
-    if (mouseMoved) {
-        let text = `x: ${mouseX}, y: ${mouseY} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
+    let scaledMouseX = (mouseX/width)*ogWidth;
+    let scaledMouseY = (mouseY/height)*ogHeight;
+    if (mouseMoved && drawMouse) {
+        let text = `x: ${(scaledMouseX).toFixed(0)}, y: ${scaledMouseY.toFixed(0)} (${ctx.getImageData(mouseX, mouseY, 1, 1).data[0]})`;
         overlayctx.font = "12px Verdana";
         setInverseColor(mouseX, mouseY);
         lastMouseX = mouseX;
